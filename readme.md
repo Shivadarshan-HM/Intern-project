@@ -1,62 +1,62 @@
-# MERN Authentication Starter
+# 🚀 MERN Auth & Dashboard App
 
-This is a starter app for a MERN stack application with authentication. This is for a SPA (Single Page Application) workflow that uses the [Vite](https://vite.dev) Build tool. This authentication workflow is based off of my [MERN Stack From Scratch | eCommerce](https://www.traversymedia.com/mern-stack-from-scratch) course.
+A full-stack web application built using the MERN stack with authentication, protected routes, and a task management dashboard.
 
-<img src="./frontend/public/screen.png" />
+---
 
-It includes the following:
+## ✨ Features
 
-- Backend API with Express & MongoDB
-- Routes for auth, logout, register, profile, update profile
-- JWT authentication stored in HTTP-only cookie
-- Protected routes and endpoints
-- Custom middleware to check JSON web token and store in cookie
-- Custom error middleware
-- React frontend to register, login, logout, view profile, and update profile
-- React Bootstrap UI library
-- React Toastify notifications
+- User Registration & Login (JWT Authentication)
+- Protected Routes
+- Task Dashboard (CRUD Operations)
+- Responsive UI (Bootstrap)
+- Secure Password Hashing (bcrypt)
+- API Rate Limiting
+- MongoDB Integration
+- Redux State Management
 
-## Usage
+---
 
-- Create a MongoDB database and obtain your `MongoDB URI` - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
-- Create a PayPal account and obtain your `Client ID` - [PayPal Developer](https://developer.paypal.com/)
+## 🛠️ Tech Stack
 
-### Env Variables
+### Frontend
+- React (Vite)
+- Redux Toolkit
+- Bootstrap
+- Axios
 
-Rename the `.env.example` file to `.env` and add the following
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+- express-rate-limit
 
-```
-NODE_ENV = development
-PORT = 5000
-MONGO_URI = your mongodb uri
-JWT_SECRET = 'abc123'
-```
+---
 
-Change the JWT_SECRET to what you want
+## ⚙️ Installation & Setup
 
-### Install Dependencies (frontend & backend)
+### 1. Clone Repository
 
-```
+```bash
+git clone <your-repo-url>
+cd mern-auth
+# Install backend dependencies
 npm install
+
+# Install frontend dependencies
 cd frontend
 npm install
-```
+cd ..
+## 📸 Screenshots
 
-### Run
+### Login Page
+![Login](screenshots/Login page)
 
-```
+### Dashboard
+![Dashboard](screenshots/Dashboard.png)
 
-# Run frontend (:3000) & backend (:5000)
-npm run dev
-
-# Run backend only
-npm run server
-```
-
-## Build & Deploy
-
-```
-# Create frontend prod build
-cd frontend
-npm run build
-```
+### Task Manager
+![Tasks](screenshots/Tasks.png)

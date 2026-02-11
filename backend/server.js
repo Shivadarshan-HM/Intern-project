@@ -1,39 +1,64 @@
-import path from 'path';
-import express from 'express';
-import dotenv from 'dotenv';
-dotenv.config();
-import connectDB from './config/db.js';
-import cookieParser from 'cookie-parser';
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-import userRoutes from './routes/userRoutes.js';
+import path from 'path'
+import express from 'express'
+import dotenv from 'dotenv'
+import rateLimit from 'express-rate-limit'
+import connectDB from './config/db.js'
+import cookieParser from 'cookie-parser'
+import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import userRoutes from './routes/userRoutes.js'
+import taskRoutes from './routes/taskRoutes.js'
 
-const port = process.env.PORT || 5000;
 
-connectDB();
+dotenv.config()
 
-const app = express();
+const port = process.env.PORT || 5000
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Connect Database
+connectDB()
 
-app.use(cookieParser());
+const app = express()
+// Rate limiter (protect from abuse)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max requests per IP
+})
 
-app.use('/api/users', userRoutes);
+app.use(limiter)
 
+
+// Body parser
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Cookie parser
+app.use(cookieParser())
+
+// Routes
+app.use('/api/users', userRoutes)
+app.use('/api/tasks', taskRoutes)
+
+// Production setup
 if (process.env.NODE_ENV === 'production') {
-  const __dirname = path.resolve();
-  app.use(express.static(path.join(__dirname, '/frontend/dist')));
+  const __dirname = path.resolve()
+
+  app.use(express.static(path.join(__dirname, '/frontend/dist')))
 
   app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
-  );
+    res.sendFile(
+      path.resolve(__dirname, 'frontend', 'dist', 'index.html')
+    )
+  )
 } else {
   app.get('/', (req, res) => {
-    res.send('API is running....');
-  });
+    res.send('API is running....')
+  })
 }
 
-app.use(notFound);
-app.use(errorHandler);
+// Error handling
+app.use(notFound)
+app.use(errorHandler)
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+// Start server
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`)
+})
